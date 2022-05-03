@@ -22,7 +22,7 @@ public class OperatorUserTest {
     @Rollback(false)
     public void addTest(){
         OperatorUser operatorUser = new OperatorUser();
-        operatorUser.setLoginname("wangwu");
+        operatorUser.setLoginname("zhangsan");
         String crypt = Md5Crypt.md5Crypt("123456".getBytes());
         operatorUser.setLoginpass(crypt);
         operatorUserService.save(operatorUser);

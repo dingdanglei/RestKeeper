@@ -32,6 +32,8 @@
         <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
         <!--  Spring Cloud Alibaba 版本信息 -->
         <spring.cloud.alibaba.version>2.1.0.RELEASE</spring.cloud.alibaba.version>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
     <dependencies>
