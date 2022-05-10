@@ -43,9 +43,14 @@ public class StoreManager extends BaseShopEntity implements Serializable {
     @ApiModelProperty(value = "门店管理员邮箱")
     private String storeManagerEmail;
 
+    @ApiModelProperty(value = "账号状态")
+    private String status;
+
     @JsonIgnore
     @ApiModelProperty(value = "密码")
     private String password;
+
+
 
     @ApiModelProperty(value = "管理员关联的门店列表")
     @TableField(exist = false)

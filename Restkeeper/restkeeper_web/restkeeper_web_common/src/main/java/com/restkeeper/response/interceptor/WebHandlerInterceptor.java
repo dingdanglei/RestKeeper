@@ -4,8 +4,6 @@ import com.restkeeper.tenant.TenantContext;
 import com.restkeeper.utils.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.apache.dubbo.rpc.RpcContext;
-import org.aspectj.weaver.ast.Var;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 

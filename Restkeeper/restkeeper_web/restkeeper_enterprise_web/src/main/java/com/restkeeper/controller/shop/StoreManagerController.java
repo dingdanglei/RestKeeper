@@ -44,4 +44,22 @@ public class StoreManagerController {
         return storeManagerService.addStoreManager(storeManagerVO.getName(),storeManagerVO.getPhone(),storeManagerVO.getEmail(),storeManagerVO.getStoreIds());
     }
 
+    @ApiOperation("店长信息修改")
+    @PutMapping("/update")
+    public boolean update(@RequestBody StoreManagerVO storeManagerVO){
+        return storeManagerService.updateStoreManager(storeManagerVO.getId(),storeManagerVO.getName(),
+                storeManagerVO.getPhone(),storeManagerVO.getEmail(),storeManagerVO.getStoreIds());
+    }
+
+    @ApiOperation("门店管理员停用")
+    @PutMapping("/pause/{id}")
+    public boolean pause(@PathVariable("id") String id){
+        return storeManagerService.pauseStoreManager(id);
+    }
+
+    @ApiOperation("删除管理员")
+    @DeleteMapping("/del/{id}")
+    public boolean delete(@PathVariable("id") String id){
+        return storeManagerService.deleteStoreManager(id);
+    }
 }

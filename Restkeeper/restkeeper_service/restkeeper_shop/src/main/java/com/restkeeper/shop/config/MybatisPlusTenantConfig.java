@@ -15,21 +15,19 @@ import java.util.List;
 @Configuration
 public class MybatisPlusTenantConfig {
 
-    //定义当前的多租户标识字段
+    /**定义当前的多租户标识字段*/
     private static final String SYSTEM_TENANT_ID="shop_id";
+    private static final String SYSTEM_TENANT_ID2= "store_id";
 
-    //定义当前有哪些表要忽略多租户的操作
-    private static final List<String> IGNORE_TENANT_TABLES= Lists.newArrayList("");
+    /**定义当前有哪些表要忽略多租户的操作*/
+    private static final List<String> IGNORE_TENANT_TABLES = Lists.newArrayList("");
 
     @Bean
     public PaginationInterceptor paginationInterceptor(){
-
-        System.out.println("-------------paginationInterceptor begin--------------");
-
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
 
         //多租户sql解析器，sql解析处理拦截，增加租户处理回调
-        TenantSqlParser tenantSqlParser = new TenantSqlParser().setTenantHandler(new TenantHandler() {
+        TenantSqlParser tenantSqlParserShop = new TenantSqlParser().setTenantHandler(new TenantHandler() {
 
             //设置租户id
             @Override
@@ -59,7 +57,31 @@ public class MybatisPlusTenantConfig {
             }
         });
 
-        paginationInterceptor.setSqlParserList(Lists.newArrayList(tenantSqlParser));
+        // SQL解析处理拦截：增加租户处理回调。
+        TenantSqlParser tenantSqlParserStore = new TenantSqlParser().setTenantHandler(new TenantHandler() {
+            @Override
+            public Expression getTenantId(boolean where) {
+                // 从当前系统上下文中取出当前请求的服务商ID，通过解析器注入到SQL中。
+                String storeId = RpcContext.getContext().getAttachment("storeId");
+                if (null == storeId) {
+                    throw new RuntimeException("get storeId error.");
+                }
+                return new StringValue(storeId);
+            }
+
+            @Override
+            public String getTenantIdColumn() {
+                return SYSTEM_TENANT_ID2;
+            }
+
+            @Override
+            public boolean doTableFilter(String tableName) {
+                // 忽略掉一些表：如租户表（provider）本身不需要执行这样的处理。
+                return IGNORE_TENANT_TABLES.stream().anyMatch((e) -> e.equalsIgnoreCase(tableName));
+            }
+        });
+
+        paginationInterceptor.setSqlParserList(Lists.newArrayList(tenantSqlParserShop,tenantSqlParserStore));
 
         return paginationInterceptor;
     }

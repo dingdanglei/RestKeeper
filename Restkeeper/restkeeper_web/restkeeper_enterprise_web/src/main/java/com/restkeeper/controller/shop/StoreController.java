@@ -5,6 +5,7 @@ import com.restkeeper.response.vo.PageVO;
 import com.restkeeper.shop.dto.StoreDTO;
 import com.restkeeper.shop.entity.Store;
 import com.restkeeper.shop.service.IStoreService;
+import com.restkeeper.utils.Result;
 import com.restkeeper.vo.shop.AddStoreVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -74,7 +75,18 @@ public class StoreController {
         return storeService.getStoreByProvince(province);
     }
 
+    @ApiOperation("获取当前商户管理员的门店信息")
+    @GetMapping("/listManagerStores")
+    public List<StoreDTO> getStoreListByManagerId(){
+        return this.getStoreListByManagerId();
+    }
 
+    @ApiOperation("门店切换")
+    @ApiImplicitParam(paramType = "path" , name = "storeId" , value = "门店id" , required = true , dataType = "String")
+    @GetMapping("/switchStore/{storeId}")
+    public Result switchStore(@PathVariable("storeId") String storeId){
+        return this.switchStore(storeId);
+    }
 
 
 }

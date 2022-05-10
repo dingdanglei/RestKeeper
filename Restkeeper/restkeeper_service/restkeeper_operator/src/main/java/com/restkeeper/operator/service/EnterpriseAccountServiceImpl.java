@@ -77,7 +77,7 @@ public class EnterpriseAccountServiceImpl extends ServiceImpl<EnterpriseAccountM
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean add(EnterpriseAccount account) {
         boolean flag = true ;
         try {
@@ -98,13 +98,13 @@ public class EnterpriseAccountServiceImpl extends ServiceImpl<EnterpriseAccountM
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean recovery(String id) {
         return this.getBaseMapper().recovery(id);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean resetPwd(String id, String password) {
         boolean flag=true;
         try {
